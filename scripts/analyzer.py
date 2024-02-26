@@ -1,5 +1,3 @@
-# analyzer.py
-
 import collections
 import os
 
