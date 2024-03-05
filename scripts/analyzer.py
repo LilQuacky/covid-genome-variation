@@ -111,11 +111,11 @@ class GenomeVariationAnalyzer:
             f.write(
                 f"Genome with the least variations: {min_variations_genome} ({variations_counter[min_variations_genome]} variations)\n")
 
-"""
+
 
             # Writing postions that change in all records
-            common_positions = [var[0] for var, genomes in all_variations.items() if
-                                len(genomes) == len(self.records)]
+            common_positions = list(set.intersection(*[set([var[0] for var in variations[genome]]) for genome in variations.keys()]))
+            common_positions.sort()
             f.write("\nPosition of the reference sequence that change in all comparisons:\n")
             f.write(f"Total positions: {len(common_positions)}\n")
             f.write("Characters at these positions in the reference sequence:\n")
@@ -124,6 +124,8 @@ class GenomeVariationAnalyzer:
                 reference_positions.append((pos, self.reference_record.seq[pos - 1]))
             f.write(f"{reference_positions}\n")
 
+
+"""
             # Writing postions that change in the same way in all records
             same_variations_positions = {'substitution': collections.Counter(), 'insertion': collections.Counter(),
                                          'deletion': collections.Counter()}
