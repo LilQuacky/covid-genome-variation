@@ -6,7 +6,7 @@ from Bio import SeqIO
 
 
 class GenomeVariationAnalyzer:
-    def __init__(self, fasta_file):
+    def __init__(self, fasta_file: str):
         self.fasta_file = fasta_file
         # TODO: sequence parser with regex and model for record
         # TODO: .upper() during parsing
@@ -16,7 +16,6 @@ class GenomeVariationAnalyzer:
     def check_input_file(self) -> None:
         """
         Checks if the input file is a valida fasta file
-        :return: True if valid, False otherwise
         """
         # Check if file exists
         if not os.path.exists(self.fasta_file):
@@ -41,12 +40,12 @@ class GenomeVariationAnalyzer:
                 raise ValueError(f"Sequence {record.id} contains invalid bases.")
 
 
-    def identify_variations(self, sequence) -> List[Tuple[int, str, str]]:
+    def identify_variations(self, sequence: str) -> List[Tuple[int, str, str]]:
         """
         Identify variations of the given sequence compared to the reference sequence
         :param sequence: String representing the sequence to be compared to the reference
         :return: List of variations of the given sequence. Each variation is a triple containing:
-        position, type of variation and the base variation
+                 position, type of variation and the base variation
         """
         # Skipping first and last gap
         first_gap = 0
@@ -73,52 +72,38 @@ class GenomeVariationAnalyzer:
 
         return variations
 
-    def compare_sequences(self, record, output_file) -> Tuple[int, int]:
-        """
-        Compare given record to the reference record and writes the report to file
-        :param record: record to be compared
-        :param output_file: file to save the report to
-        :return: Tuple containing id of the compared record and the number of variations
-        """
-        compare_id = record.id
-        compare_seq = str(record.seq).upper()
-        result = f"\nComparing {self.reference_record.id} with {compare_id}:\n"
-        variations = self.identify_variations(compare_seq)
-        
-        output_file.write(result)
-        if variations:
-            for var in variations:
-                output_file.write(f"Position: {var[0]}: {var[1]}: {var[2]}\n")
-        else:
-            output_file.write("No variations found.\n")
-
-        return compare_id, len(variations)
-
     def generate_final_report(self, 
-                              output_comparisons_file="comparisons.txt",
-                              output_final_report_file="final_report.txt"):
+                              output_comparisons_file: str = "comparisons.txt",
+                              output_final_report_file: str = "final_report.txt"):
         
         # Doing needed checks to avoid errors during execution
         self.check_input_file()
         self.validate_sequences()
 
         print("Generating final report...")
-        genome_variations_count = {}
-        all_variations = collections.defaultdict(list)
-        reference_positions = []
+        
+        # Saving for each genome its variations
+        variations = {}
+        for r in self.records:
+            variations[r.id] = self.identify_variations(r.seq)
 
         # Writing comparison file
         with open(output_comparisons_file, "w") as f:
-            for record in self.records:
-                compare_id, variations_count = self.compare_sequences(record, f)
-                genome_variations_count[compare_id] = variations_count
-                # TODO: Remove .upper() when model parsing with regex is implemented
-                for var in self.identify_variations(str(record.seq).upper()):
-                    all_variations[var].append(compare_id)
+            for r in self.records:
+                f.write(f"\nComparing {self.reference_record.id} with {r.id}:\n")
+                if variations[r.id]:
+                    for var in variations[r.id]:
+                        f.write(f"Position: {var[0]}: {var[1]}: {var[2]}\n")
+                else:
+                    f.write("No variations found.\n")
+
+        """
 
         # Writing final report file
         with open(output_final_report_file, "w") as f:
             f.write("Final Report:\n")
+
+            # Writing genome with most and least variations
             max_variations_genome = max(genome_variations_count)
             min_variations_genome = min(genome_variations_count)
             f.write(
@@ -126,15 +111,18 @@ class GenomeVariationAnalyzer:
             f.write(
                 f"Genome with the least variations: {min_variations_genome} ({genome_variations_count[min_variations_genome]} variations)\n")
 
+            # Writing postions that change in all records
             common_positions = [var[0] for var, genomes in all_variations.items() if
-                                len(genomes) == len(self.records) - 1]
+                                len(genomes) == len(self.records)]
             f.write("\nPosition of the reference sequence that change in all comparisons:\n")
             f.write(f"Total positions: {len(common_positions)}\n")
             f.write("Characters at these positions in the reference sequence:\n")
+            reference_positions = []
             for pos in common_positions:
                 reference_positions.append((pos, self.reference_record.seq[pos - 1]))
             f.write(f"{reference_positions}\n")
 
+            # Writing postions that change in the same way in all records
             same_variations_positions = {'substitution': collections.Counter(), 'insertion': collections.Counter(),
                                          'deletion': collections.Counter()}
             for var, genomes in all_variations.items():
@@ -148,3 +136,5 @@ class GenomeVariationAnalyzer:
                     f.write(f"Position: {position}, Detail: {detail}\n")
 
         print("Report Generated!")
+
+        """

@@ -220,7 +220,6 @@ Position: 29402: substitution: G->T
 Position: 29509: substitution: C->T
 Position: 29543: substitution: G->T
 Position: 29742: substitution: G->T
-Position: 29813: deletion: A
 
 Comparing NC_045512.2 with OL700537.1:
 Position: 186: substitution: C->T
@@ -281,7 +280,6 @@ Position: 28881: substitution: G->T
 Position: 28916: substitution: G->T
 Position: 29402: substitution: G->T
 Position: 29742: substitution: G->T
-Position: 29800: deletion: G
 
 Comparing NC_045512.2 with OL700524.1:
 Position: 210: substitution: G->T
@@ -521,7 +519,6 @@ Position: 29119: substitution: C->T
 Position: 29402: substitution: G->T
 Position: 29742: substitution: G->T
 Position: 29781: substitution: G->T
-Position: 29833: deletion: A
 
 Comparing NC_045512.2 with OL700544.1:
 Position: 210: substitution: G->T
@@ -578,7 +575,6 @@ Position: 28881: substitution: G->T
 Position: 28916: substitution: G->T
 Position: 29402: substitution: G->T
 Position: 29742: substitution: G->T
-Position: 29842: deletion: T
 
 Comparing NC_045512.2 with OL700541.1:
 Position: 210: substitution: G->T
@@ -750,4 +746,3 @@ Position: 28881: substitution: G->T
 Position: 29402: substitution: G->T
 Position: 29409: substitution: C->T
 Position: 29742: substitution: G->T
-Position: 29877: deletion: A

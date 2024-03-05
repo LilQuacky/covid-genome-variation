@@ -1,2 +1,2 @@
-/script/pycache
-/.idea
+.idea
+scripts/__pycache__/analyzer.cpython-312.pyc
