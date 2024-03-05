@@ -114,33 +114,20 @@ class GenomeVariationAnalyzer:
 
 
             # Writing postions that change in all records
-            common_positions = list(set.intersection(*[set([var[0] for var in variations[genome]]) for genome in variations.keys()]))
+            common_positions = list(set.intersection(*[set(map(lambda x: x[0], variations[genome])) for genome in variations.keys()]))
             common_positions.sort()
             f.write("\nPosition of the reference sequence that change in all comparisons:\n")
             f.write(f"Total positions: {len(common_positions)}\n")
-            f.write("Characters at these positions in the reference sequence:\n")
-            reference_positions = []
             for pos in common_positions:
-                reference_positions.append((pos, self.reference_record.seq[pos - 1]))
-            f.write(f"{reference_positions}\n")
+                f.write(f"Position: {pos}, Base: {self.reference_record.seq[pos - 1]}\n")
 
 
-"""
             # Writing postions that change in the same way in all records
-            same_variations_positions = {'substitution': collections.Counter(), 'insertion': collections.Counter(),
-                                         'deletion': collections.Counter()}
-            for var, genomes in all_variations.items():
-                if len(set(genomes)) == 1:
-                    same_variations_positions[var[1]][(var[0], var[2])] += 1  # Including reference position
+            common_variations = list(set.intersection(*[set(variations[genome]) for genome in variations.keys()]))
+            common_variations.sort()
             f.write("\nPosition of the reference sequence that change in the same way in all comparisons:\n")
-            for var_type, counts in same_variations_positions.items():
-                f.write(f"\n{var_type.capitalize()} variations:\n")
-                f.write(f"Total positions: {sum(counts.values())}\n")
-                for (position, detail), count in counts.items():
-                    f.write(f"Position: {position}, Detail: {detail}\n")
+            f.write(f"Total positions: {len(common_variations)}\n")
+            for var in common_variations:
+                f.write(f"Position: {var[0]}: {var[1]}: {var[2]}\n")
 
         print("Report Generated!")
-
-
-"""
-
