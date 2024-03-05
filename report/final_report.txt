@@ -1,11 +1,11 @@
 Final Report:
-Genome with the most variations: OL700537.1 (208 variations)
-Genome with the least variations: OL700526.1 (68 variations)
+Genome with the most variations: OL700545.1 (55 variations)
+Genome with the least variations: OL700521.1 (49 variations)
 
 Position of the reference sequence that change in all comparisons:
-Total positions: 49
+Total positions: 0
 Characters at these positions in the reference sequence:
-[(1, 'A'), (2, 'T'), (3, 'T'), (4, 'A'), (5, 'A'), (6, 'A'), (7, 'G'), (8, 'G'), (9, 'T'), (10, 'T'), (11, 'T'), (12, 'A'), (13, 'T'), (14, 'A'), (15, 'C'), (210, 'G'), (241, 'C'), (3037, 'C'), (14408, 'C'), (15451, 'G'), (16466, 'C'), (21618, 'C'), (21987, 'G'), (22029, 'A'), (22030, 'G'), (22031, 'T'), (22032, 'T'), (22033, 'C'), (22034, 'A'), (22917, 'T'), (22995, 'C'), (23403, 'A'), (23604, 'C'), (24410, 'G'), (25469, 'C'), (26767, 'T'), (27638, 'T'), (27752, 'C'), (28248, 'G'), (28249, 'A'), (28250, 'T'), (28251, 'T'), (28252, 'T'), (28253, 'C'), (28271, 'A'), (28461, 'A'), (28881, 'G'), (29402, 'G'), (29742, 'G')]
+[]
 
 Position of the reference sequence that change in the same way in all comparisons:
 
@@ -115,20 +115,12 @@ Insertion variations:
 Total positions: 0
 
 Deletion variations:
-Total positions: 16
+Total positions: 8
+Position: 29813, Detail: A
 Position: 29800, Detail: G
-Position: 29801, Detail: C
-Position: 29802, Detail: C
-Position: 29803, Detail: C
-Position: 29804, Detail: T
-Position: 29805, Detail: A
-Position: 29806, Detail: A
-Position: 29807, Detail: T
-Position: 29808, Detail: G
-Position: 29809, Detail: T
-Position: 29810, Detail: G
-Position: 29811, Detail: T
-Position: 29812, Detail: A
+Position: 29833, Detail: A
+Position: 29842, Detail: T
 Position: 521, Detail: G
 Position: 522, Detail: T
 Position: 523, Detail: T
+Position: 29877, Detail: A
