@@ -70,7 +70,7 @@ class GenomeVariationAnalyzer:
                 elif ref_base != 'N' and seq_base != 'N':
                     variations.append((pos, 'substitution', f"{ref_base}->{seq_base}"))
 
-        return variations
+        return variations, len(variations)
 
     def generate_final_report(self, 
                               output_comparisons_file: str = "comparisons.txt",
@@ -84,8 +84,9 @@ class GenomeVariationAnalyzer:
         
         # Saving for each genome its variations
         variations = {}
+        variations_counter = {}
         for r in self.records:
-            variations[r.id] = self.identify_variations(r.seq)
+            variations[r.id], variations_counter[r.id] = self.identify_variations(r.seq)
 
         # Writing comparison file
         with open(output_comparisons_file, "w") as f:
@@ -97,19 +98,20 @@ class GenomeVariationAnalyzer:
                 else:
                     f.write("No variations found.\n")
 
-        """
 
         # Writing final report file
         with open(output_final_report_file, "w") as f:
             f.write("Final Report:\n")
 
             # Writing genome with most and least variations
-            max_variations_genome = max(genome_variations_count)
-            min_variations_genome = min(genome_variations_count)
+            max_variations_genome = max(variations_counter, key=variations_counter.get)
+            min_variations_genome = min(variations_counter, key=variations_counter.get)
             f.write(
-                f"Genome with the most variations: {max_variations_genome} ({genome_variations_count[max_variations_genome]} variations)\n")
+                f"Genome with the most variations: {max_variations_genome} ({variations_counter[max_variations_genome]} variations)\n")
             f.write(
-                f"Genome with the least variations: {min_variations_genome} ({genome_variations_count[min_variations_genome]} variations)\n")
+                f"Genome with the least variations: {min_variations_genome} ({variations_counter[min_variations_genome]} variations)\n")
+
+"""
 
             # Writing postions that change in all records
             common_positions = [var[0] for var, genomes in all_variations.items() if
@@ -137,4 +139,6 @@ class GenomeVariationAnalyzer:
 
         print("Report Generated!")
 
-        """
+
+"""
+

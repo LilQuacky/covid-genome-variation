@@ -1,1 +1,3 @@
 Final Report:
+Genome with the most variations: OL700538.1 (60 variations)
+Genome with the least variations: OL700521.1 (49 variations)
