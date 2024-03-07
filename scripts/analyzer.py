@@ -1,28 +1,47 @@
-import collections
+
 import os
+import re
 
 from typing import List, Tuple
-from Bio import SeqIO
+
+class GenomeRecord:
+    """
+    Class to contain a genome informations
+    """
+    def __init__(self, id, sequence):
+        self._id = id
+        self._sequence = sequence
+
+    @property
+    def id(self):
+        """
+        Property containing genome id
+        """
+        return self._id
+    
+    @property
+    def seq(self):
+        """
+        Property containing genome sequence
+        """
+        return self._sequence
 
 
 class GenomeVariationAnalyzer:
     def __init__(self, fasta_file: str):
-        self.fasta_file = fasta_file
-        # TODO: sequence parser with regex and model for record
-        # TODO: .upper() during parsing
-        self.records = list(SeqIO.parse(fasta_file, "fasta"))
+        self.records = self.extract_records(fasta_file)
         self.reference_record = self.records.pop(0)
 
-    def check_input_file(self) -> None:
+    def check_input_file(self, fasta_file: str) -> None:
         """
         Checks if the input file is a valida fasta file
         """
         # Check if file exists
-        if not os.path.exists(self.fasta_file):
-            raise ValueError(f"Error: The file {self.fasta_file} does not exists.")
+        if not os.path.exists(fasta_file):
+            raise ValueError(f"Error: The file {fasta_file} does not exists.")
         # Check if file is not empty
-        if os.path.getsize(self.fasta_file) == 0:
-            raise ValueError(f"Error: The file {self.fasta_file} is empty.")
+        if os.path.getsize(fasta_file) == 0:
+            raise ValueError(f"Error: The file {fasta_file} is empty.")
 
 
     def validate_sequences(self) -> None:
@@ -36,8 +55,32 @@ class GenomeVariationAnalyzer:
             if len(record.seq) != reference_length:
                 raise ValueError(f"Sequence {record.id} has a different length compared to the reference sequence.")
             # Check bases
-            if set(record.seq.upper()) - set('ACGTN-'):
+            if set(record.seq) - set('ACGTN-'):
                 raise ValueError(f"Sequence {record.id} contains invalid bases.")
+            
+    def extract_records(self, fasta_file: str) -> List[GenomeRecord]:
+        """
+        Extracts all genome records from a fasta file.
+        :param fasta_file: File to extract records from
+        :return: List of GenomeRecord objects containing all records read from input file
+        """
+
+        self.check_input_file(fasta_file)
+
+        with open(fasta_file, "r") as file_in:
+            file_str = file_in.read()
+
+        pattern = r'>([A-Za-z_0-9\.]+)[\w, /|-]+\n([ACGTN\-\n]+)'
+
+        recordList = []
+        for m in re.findall(pattern, file_str, re.M):
+            id = m[0]
+            sequence = re.sub(r'\n', '', m[1])
+            genome = GenomeRecord(id, sequence)
+            recordList.append(genome)
+
+        return recordList
+
 
 
     def identify_variations(self, sequence: str) -> List[Tuple[int, str, str]]:
@@ -70,14 +113,17 @@ class GenomeVariationAnalyzer:
                 elif ref_base != 'N' and seq_base != 'N':
                     variations.append((pos, 'substitution', f"{ref_base}->{seq_base}"))
 
-        return variations, len(variations)
+        return variations
 
     def generate_final_report(self, 
                               output_comparisons_file: str = "comparisons.txt",
-                              output_final_report_file: str = "final_report.txt"):
-        
-        # Doing needed checks to avoid errors during execution
-        self.check_input_file()
+                              output_final_report_file: str = "final_report.txt") -> None:
+        """
+        Generate the final report and write it into two file. The first with all the variations 
+        and the second with the requested information about the genomes.
+        :param output_comparisons_file: String representing file in which to save the variations
+        :param output_final_report_file: String representing file in which to save the genomes info
+        """
         self.validate_sequences()
 
         print("Generating final report...")
@@ -86,7 +132,8 @@ class GenomeVariationAnalyzer:
         variations = {}
         variations_counter = {}
         for r in self.records:
-            variations[r.id], variations_counter[r.id] = self.identify_variations(r.seq)
+            variations[r.id] = self.identify_variations(r.seq)
+            variations_counter[r.id] = len(variations[r.id])
 
         # Writing comparison file
         with open(output_comparisons_file, "w") as f:
