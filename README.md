@@ -10,7 +10,7 @@
 #### 3. [Tools](#tools)
 #### 4. [Setup](#setup)
 #### 5. [Codebase](#codebase)
-### 6. [Usage](#usage)
+#### 6. [Usage](#usage)
 #### 6.  [Collaborate](#collaborate)
 
 ## Objective
