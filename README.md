@@ -54,7 +54,7 @@ The same should apply for VSCode!
   - `covid-sequences.fasta`: the file assigned in the project description.
   - `aligned-covid-sequences.fasta`: fasta files with aligned strings via MAFFT.
 - *report* directory containing output files generated:
-  - `comparisons.txt`: performs comparisons between sequences.
+  - `comparisons.txt`: contains comparisons between sequences.
   - `final_report.txt`: contains the final requested results.
 - *scripts* containing necessary Python script for the program:
   - `analyzer.py`: accepts a FASTA file with genome sequences and:
