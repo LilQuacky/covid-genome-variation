@@ -10,6 +10,7 @@
 #### 3. [Tools](#tools)
 #### 4. [Setup](#setup)
 #### 5. [Codebase](#codebase)
+### 6. [Usage](#usage)
 #### 6.  [Collaborate](#collaborate)
 
 ## Objective
@@ -32,21 +33,16 @@ We employ MAFFT for alignment, leveraging the resulting multiple sequence alignm
 alignment of multiple DNA, RNA, or protein sequences. MAFFT is commonly used to align sequences in comparative genomics 
 studies to understand evolutionary relationships or identify variations between sequences.
 
-2. **Biopython** is a collection of freely available Python tools for computational biology and bioinformatics. It provides functionalities for working with biological data, including sequence analysis, sequence alignment, protein structure analysis, phylogenetics, and more. Biopython includes modules for reading and writing sequence files in various formats, manipulating sequences, performing sequence alignments, and accessing online biological databases. Biopython simplifies the development of bioinformatics applications and pipelines by providing a comprehensive set of tools and utilities.
+2. **Python** is a high-level, interpreted programming language known for its simplicity and readability. It is widely used in bioinformatics and computational biology due to its versatility and extensive libraries like Biopython, NumPy, and SciPy. Python allows bioinformaticians to develop powerful and efficient tools for analyzing biological data and solving complex problems.
 
-3. **Python** is a high-level, interpreted programming language known for its simplicity and readability. It is widely used in bioinformatics and computational biology due to its versatility and extensive libraries like Biopython, NumPy, and SciPy. Python allows bioinformaticians to develop powerful and efficient tools for analyzing biological data and solving complex problems.
+3. **PyCharm** is an integrated development environment (IDE) specifically designed for Python development. It provides features such as code debugging, syntax highlighting, intelligent code completion, and project management tools. PyCharm helps bioinformaticians and developers write, test, and debug Python scripts more efficiently.
 
-4. **PyCharm** is an integrated development environment (IDE) specifically designed for Python development. It provides features such as code debugging, syntax highlighting, intelligent code completion, and project management tools. PyCharm helps bioinformaticians and developers write, test, and debug Python scripts more efficiently.
-
-5. **GitHub** is a web-based platform and version control system used for hosting and sharing code repositories. It allows developers to collaborate on projects, track changes, manage issues, and merge code changes through pull requests. GitHub is widely used in the bioinformatics community for sharing bioinformatics tools, pipelines, and data analysis workflows. It fosters collaboration and facilitates the dissemination of scientific research and software development in bioinformatics.
+4. **GitHub** is a web-based platform and version control system used for hosting and sharing code repositories. It allows developers to collaborate on projects, track changes, manage issues, and merge code changes through pull requests. GitHub is widely used in the bioinformatics community for sharing bioinformatics tools, pipelines, and data analysis workflows. It fosters collaboration and facilitates the dissemination of scientific research and software development in bioinformatics.
 
 ## Setup
 
 1. **Install Python:** Download and install Python from the official website: [Python.org](https://www.python.org/).
-2. **Install Biopython:** You can install Biopython using pip:
-   ```
-   pip install biopython
-   ```
+
 If you're using PyCharm, after following these simple steps, everything should be ready to go!
 
 The same should apply for VSCode!
@@ -60,9 +56,33 @@ The same should apply for VSCode!
 - *report* directory containing output files generated:
   - `comparisons.txt`: performs comparisons between sequences.
   - `final_report.txt`: contains the final requested results.
-- *scripts* containing necessary Python scripts for the program:
-  - `analyzer.py`: performs string analysis, validates input files and sequences, finds all genome variations, and generates the report.
-  - `main.py`: file to run to obtain the report.
+- *scripts* containing necessary Python script for the program:
+  - `analyzer.py`: accepts a FASTA file with genome sequences and:
+    - validates sequences for length and base composition
+    - identifies variations compared to a reference sequence 
+    - generates a final report with variation details
+- `main.py`: demonstrates the usage of the GenomeVariationAnalyzer class defined in `analyzer.py`. 
+
+## Usage
+
+If you wish to use this project with your custom files, follow these steps:
+
+1. **Prepare Custom Files:**
+   - Ensure you have a FASTA file containing the genome sequences you want to analyze.
+   
+2. **Replace Default FASTA File:**
+   - Replace the default FASTA file path (`fasta/aligned-covid-sequences.fasta`) in the `main.py` file with the path to your custom FASTA file.
+
+3. **Run the Program:**
+   - Once you've replaced the default FASTA file with your custom file, run the `main.py` file.
+   - This will initiate the analysis process using your custom FASTA file and generate the corresponding output reports.
+
+4. **Explore the Results:**
+   - After the program execution completes, you can examine the generated output reports in the `report` directory.
+   - The output files will include `comparisons.txt`, which displays differences between the analyzed sequences, and `final_report.txt`, containing the final analysis results.
+
+By following these steps, you'll be able to use the project with your custom files and analyze the genome sequences of your interest. If you encounter any issues or have questions, feel free to reach out to the development team for assistance and support.
+
 
 ## Collaborate
 If you encounter any errors or have suggestions for improvements, we welcome collaboration and feedback from the community. You can contribute by:
